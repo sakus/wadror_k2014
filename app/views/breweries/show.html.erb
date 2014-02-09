@@ -28,7 +28,7 @@
 <p>
   <% if @brewery.ratings.empty? %>
   <% else %>
-    <%= @brewery.average_rating %>
+    <p>Has <%= pluralize(@brewery.ratings.count,'rating') %>, average <%= @brewery.average_rating %> </p>
   <% end %>
 </p>
 

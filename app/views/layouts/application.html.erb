@@ -13,6 +13,7 @@
 		<%= link_to 'beers', beers_path %>
 		<%= link_to 'ratings', ratings_path %>
 		<%= link_to 'users', users_path %>
+		<%= link_to 'beer clubs', beer_clubs_path %>
 
 		| 
 
@@ -24,6 +25,7 @@
 		<% if not current_user.nil? %>
   			<%= link_to current_user.username, user_path(current_user) %>
   			<%= link_to 'rate a beer', new_rating_path %>
+  			<%= link_to 'join a club', new_membership_path %>
   			<%= link_to 'sign out', signout_path, method: :delete, data: {} %>
 		<% end %>
 

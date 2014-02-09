@@ -1,6 +1,13 @@
 class BeersController < ApplicationController
   before_action :set_beer, only: [:show, :edit, :update, :destroy]
 
+  def set_breweries_and_styles_for_template
+    @breweries = Brewery.all
+    @styles = ["Weizen", "Lager", "Pale Ale", "IPA", "Porter"]
+  end
+
+  before_action :set_breweries_and_styles_for_template, only: [:new, :edit, :create]
+
   # GET /beers
   # GET /beers.json
   def index
@@ -15,22 +22,16 @@ class BeersController < ApplicationController
   # GET /beers/new
   def new
     @beer = Beer.new
-    @breweries = Brewery.all
-    @styles = ["Weizen", "Lager", "Pale ale", "IPA", "Porter"]
   end
 
   # GET /beers/1/edit
   def edit
-    @breweries = Brewery.all
-    @styles = ["Weizen", "Lager", "Pale ale", "IPA", "Porter"]
   end
 
   # POST /beers
   # POST /beers.json
   def create
     @beer = Beer.new(beer_params)
-    @breweries = Brewery.all
-    @styles = ["Weizen", "Lager", "Pale ale", "IPA", "Porter"]
 
     respond_to do |format|
       if @beer.save

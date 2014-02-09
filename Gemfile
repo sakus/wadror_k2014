@@ -6,6 +6,20 @@ gem 'rails', '4.0.2'
 # Use sqlite3 as the database for Active Record
 #gem 'sqlite3'
 
+group :test do
+  gem 'rspec-rails', '~> 2.14.1'
+end
+
+group :test do
+  gem 'factory_girl_rails'
+end
+
+group :test do
+  gem 'capybara'
+  gem 'launchy'
+  gem 'simplecov', require: false
+end
+
 group :development, :test do
   gem 'sqlite3'
 end
