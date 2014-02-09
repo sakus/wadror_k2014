@@ -1,2 +1,3 @@
 deployed @ heroku: http://nameless-island-1363.herokuapp.com
+
 build status: https://https://travis-ci.org/sakus/wadror_k2014
