@@ -32,8 +32,9 @@ Ratebeer::Application.routes.draw do
   delete 'signout', to: 'sessions#destroy'
   get 'signout', to: 'sessions#destroy'
 
-  get 'places', to: 'places#index'
+  get 'places', to:'places#index'
   post 'places', to:'places#search'
+
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

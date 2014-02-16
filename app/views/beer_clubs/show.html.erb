@@ -9,9 +9,24 @@
 <h3>Members</h3>
 
 <ul>
+
   <% @beer_club.members.each do |member| %>
     <li><%= link_to member.username, member %></li>
   <% end %>
+
 </ul>
 
-<%= link_to 'Edit', edit_beer_club_path(@beer_club) %>
+<% if current_user %>
+
+	<% if not @beer_club.members.each.include?(current_user) %>
+
+		<%= form_for(@membership) do |f| %>
+    		<%= f.hidden_field :beer_club_id %>
+    		<%= f.submit value:"join the club" %>
+ 		<% end %>
+
+ 	<% end %>
+
+	<%= link_to 'Edit', edit_beer_club_path(@beer_club) %>
+
+<% end %>
