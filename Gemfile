@@ -3,6 +3,10 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.2'
 
+gem 'httparty'
+
+gem "rails-settings-cached", "0.3.1"
+
 # Use sqlite3 as the database for Active Record
 #gem 'sqlite3'
 
@@ -18,6 +22,7 @@ group :test do
   gem 'capybara'
   gem 'launchy'
   gem 'simplecov', require: false
+  gem 'webmock'
 end
 
 group :development, :test do
