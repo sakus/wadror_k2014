@@ -1,4 +1,5 @@
 require 'spec_helper'
+
 include OwnTestHelper
 
 describe "Rating" do
@@ -6,7 +7,6 @@ describe "Rating" do
   let!(:beer1) { FactoryGirl.create :beer, name:"iso 3", brewery:brewery }
   let!(:beer2) { FactoryGirl.create :beer, name:"Karhu", brewery:brewery }
   let!(:user) { FactoryGirl.create :user }
-  let!(:user2) { FactoryGirl.create :user, username:"Mikko", password:"Salaisuus1", password_confirmation:"Salaisuus1" }
 
   before :each do
     sign_in(username:"Pekka", password:"Foobar1")
@@ -26,39 +26,37 @@ describe "Rating" do
     expect(beer1.average_rating).to eq(15.0)
   end
 
-  it "are shown in the page together with how many there are" do
-    FactoryGirl.create(:rating, score:15, beer:beer1, user:user)
-    FactoryGirl.create(:rating, score:30, beer:beer2, user:user)
-    visit ratings_path
-    expect(Rating.count).to eq(2)
-    expect(page).to have_content 'Number of ratings: 2'
-    expect(page).to have_content 'iso 3 15 Pekka'
-    expect(page).to have_content 'Karhu 30 Pekka'
-  end
+  describe "when many exists" do
+    before :each do
+      user2 = FactoryGirl.create(:user, username:'Arto')
 
-  it "is only shown on the correct user's page" do
-    FactoryGirl.create(:rating, score:15, beer:beer1, user:user)
-    FactoryGirl.create(:rating, score:30, beer:beer2, user:user)
-    FactoryGirl.create(:rating, score:35, beer:beer2, user:user2)
-    visit user_path(user)
-    expect(page).to have_content 'has made 2 ratings'
-    expect(page).to have_content 'iso 3 15'
-    expect(page).to have_content 'Karhu 30'
-    expect(page).not_to have_content 'Karhu 35'
-    visit user_path(user2)
-    expect(page).to have_content 'has made 1 rating'
-    expect(page).to have_content 'Karhu 35'
-    expect(page).not_to have_content 'iso 3 15'
-    expect(page).not_to have_content 'Karhu 30'
-  end
+      FactoryGirl.create(:rating, score:10, beer:beer1, user:user)
+      FactoryGirl.create(:rating, score:20, beer:beer1, user:user2)
+      FactoryGirl.create(:rating, score:30, beer:beer2, user:user)
+    end
 
-  it "is deleted from the database when deleted through the www page" do
-    FactoryGirl.create(:rating, score:15, beer:beer1, user:user)
-    FactoryGirl.create(:rating, score:30, beer:beer2, user:user)
-    visit user_path(user)
-    expect{
-      first(:link, 'delete').click
-    }.to change{Rating.count}.from(2).to(1)
-  end
+    it "all are listed at the ratings page" do
+      visit ratings_path
+      expect(page).to have_content 'Number of ratings 3'
+      expect(page).to have_content "#{beer1.name} 10"
+      expect(page).to have_content "#{beer1.name} 20"
+      expect(page).to have_content "#{beer2.name} 30"
+    end
 
+    it "only users own are shown at users page" do
+      visit user_path(user)
+      expect(page).to have_content 'has made 2 ratings'
+      expect(page).to have_content "#{beer1.name} 10"
+      expect(page).to have_content "#{beer2.name} 30"
+      expect(page).not_to have_content "#{beer1.name} 20"
+    end
+
+    it "user can delete one of his own" do
+      visit user_path(user)
+
+      expect{
+        page.first('a', text:'delete').click
+      }.to change{Rating.count}.by(-1)
+    end
+  end
 end

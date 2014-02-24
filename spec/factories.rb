@@ -13,6 +13,11 @@ FactoryGirl.define do
     score 20
   end
 
+  factory :style do
+    name "anonymous"
+    description "a well known style"
+  end
+
   factory :brewery do
     name "anonymous"
     year 1900
@@ -21,7 +26,6 @@ FactoryGirl.define do
   factory :beer do
     name "anonymous"
     brewery
-    style "Lager"
+    style
   end
-
 end

@@ -5,7 +5,6 @@ describe "Breweries page" do
     visit breweries_path
     expect(page).to have_content 'Listing breweries'
     expect(page).to have_content 'Number of breweries: 0'
-
   end
 
   describe "when breweries exists" do
@@ -30,7 +29,7 @@ describe "Breweries page" do
       click_link "Koff"
 
       expect(page).to have_content "Koff"
-      expect(page).to have_content "Established in 1897"
+      expect(page).to have_content "Established year: 1897"
     end
 
   end

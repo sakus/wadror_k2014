@@ -1,20 +1,23 @@
 class BeersController < ApplicationController
-  before_action :ensure_that_signed_in, except: [:index, :show]
   before_action :set_beer, only: [:show, :edit, :update, :destroy]
-
-  def set_breweries_and_styles_for_template
-    @breweries = Brewery.all
-    @styles = ["Weizen", "Lager", "Pale Ale", "IPA", "Porter"]
-  end
-
+  before_action :ensure_that_signed_in, except: [:index, :show]
+  before_action :ensure_that_signed_in_as_admin, only: [:destroy]
   before_action :set_breweries_and_styles_for_template, only: [:new, :edit, :create]
 
   # GET /beers
   # GET /beers.json
   def index
     @beers = Beer.all
-  end
 
+    order = params[:order] || 'name'
+
+    case order
+      when 'name' then @beers.sort_by!{ |b| b.name }
+      when 'brewery' then @beers.sort_by!{ |b| b.brewery.name }
+      when 'style' then @beers.sort_by!{ |b| b.style.name }
+    end
+  end
+  
   # GET /beers/1
   # GET /beers/1.json
   def show
@@ -72,6 +75,11 @@ class BeersController < ApplicationController
   end
 
   private
+    def set_breweries_and_styles_for_template
+      @breweries = Brewery.all
+      @styles = Style.all
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_beer
       @beer = Beer.find(params[:id])
@@ -79,6 +87,6 @@ class BeersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def beer_params
-      params.require(:beer).permit(:name, :style, :brewery_id)
+      params.require(:beer).permit(:name, :style_id, :brewery_id)
     end
 end

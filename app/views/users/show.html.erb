@@ -6,8 +6,6 @@
     <p>has not yet made ratings</p>
 <% else %>
     <p>has made <%= pluralize( @user.ratings.count, 'rating') %></p>
-    <p>favorite beer style: <%= @user.favorite_style %></p>
-    <p>favorite brewery: <%= @user.favorite_brewery %></p>
 <% end %>
 
 <% if @user.beer_clubs.any? %>
@@ -17,6 +15,12 @@
       <%= link_to club.name, club %>
     <% end %>
   </p>
+<% end %>
+
+<% if @user.ratings.any? %>
+    <p>Favorite beer: <%= link_to @user.favorite_beer, @user.favorite_beer %> </p>
+    <p>Favorite brewery: <%= link_to @user.favorite_brewery.name, @user.favorite_brewery %> </p>
+    <p>Preferred style: <%= link_to @user.favorite_style, @user.favorite_style %> </p>
 <% end %>
 
 <h3>ratings</h3>

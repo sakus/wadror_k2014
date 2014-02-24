@@ -1,37 +1,30 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <h2>
-  	<%= @brewery.name %>
-  </h2>
+<h2>
+  <%= @brewery.name %>
+</h2>
+
+<p> 
+  <em>Established year:</em>
+  <%= @brewery.year %>
 </p>
 
-<p>
-  <i>
-  	<strong>Established in</strong>
-  	<%= @brewery.year %>
-  </i>
-</p>
+<p>Number of beers <%= @brewery.beers.count%> </p>
 
-<p>
-  Beers: <%= @brewery.beers.count %>
-</p>
-
-<p>
 <ul>
  <% @brewery.beers.each do |beer| %>
    <li><%= link_to beer.name, beer %></li>
  <% end %>
- </ul>
-</p>
+</ul>
 
-<p>
-  <% if @brewery.ratings.empty? %>
-  <% else %>
+<% if @brewery.ratings.empty? %>
+    <p>beers of the brewery have not yet been rated! </p>
+<% else %>
     <p>Has <%= pluralize(@brewery.ratings.count,'rating') %>, average <%= @brewery.average_rating %> </p>
-  <% end %>
-</p>
+<% end %>
 
-<%= link_to 'Edit', edit_brewery_path(@brewery) %> |
-<%= link_to 'Back', breweries_path %> |
-<%= link_to 'List of beers', beers_path %>
+<% if current_user %>
+  <%= link_to 'Edit', edit_brewery_path(@brewery) %>
+  <%= link_to 'Destroy', @brewery, method: :delete, data: { confirm: 'Are you sure?' } %>
+<% end %>
+

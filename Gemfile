@@ -1,29 +1,13 @@
 source 'https://rubygems.org'
 
+
+gem 'bootstrap-sass'
+group :development do
+  gem 'rails_layout'
+end
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.2'
-
-gem 'httparty'
-
-gem "rails-settings-cached", "0.3.1"
-
-# Use sqlite3 as the database for Active Record
-#gem 'sqlite3'
-
-group :test do
-  gem 'rspec-rails', '~> 2.14.1'
-end
-
-group :test do
-  gem 'factory_girl_rails'
-end
-
-group :test do
-  gem 'capybara'
-  gem 'launchy'
-  gem 'simplecov', require: false
-  gem 'webmock'
-end
 
 group :development, :test do
   gem 'sqlite3'
@@ -33,9 +17,6 @@ group :production do
    gem 'pg'
    gem 'rails_12factor' 
 end
-
-gem 'byebug', group: [:development, :test]
-gem 'bcrypt-ruby', '~> 3.1.2'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
@@ -47,7 +28,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-gem 'therubyracer', platforms: :ruby
+# gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -64,13 +45,23 @@ group :doc do
 end
 
 # Use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.1.2'
+gem 'bcrypt-ruby', '~> 3.1.2'
 
 # Use unicorn as the app server
 # gem 'unicorn'
 
-# Use Capistrano for deployment
-# gem 'capistrano', group: :development
+group :development, :test do
+  gem 'byebug'
+end
 
-# Use debugger
-# gem 'debugger', group: [:development, :test]
+group :test do
+  gem 'rspec-rails', '~> 2.14.1'
+  gem 'factory_girl_rails'
+  gem 'capybara'
+  gem 'launchy'
+  gem 'webmock'
+  gem 'simplecov', require: false
+end
+
+gem 'httparty'
+gem "rails-settings-cached", "0.3.1"
